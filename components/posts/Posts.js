@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator } from 'react-native';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -8,20 +8,15 @@ class Posts extends Component {
   render() {
       const {loading, allPosts, navigation} = this.props;
 
-      if(loading) return null;
+      if(loading) return <ActivityIndicator size="large" />;
       
     return (
       <View>
-          <FlatList 
+        <FlatList 
             data={allPosts}
             renderItem={({item}) => (
-            <Text 
-                onPress={()=> navigation.navigate("Post", {
-                    id: item.id
-                    })
-                }
-            > 
-                {item.title} 
+            <Text onPress={()=> navigation.navigate("Post", {id: item.id, title: item.title})} > 
+                {item.title}                
             </Text>)}
             keyExtractor={item => item.id}
         />
@@ -32,7 +27,7 @@ class Posts extends Component {
 }
 
 const postsQuery = gql `
-    {
+    query postsQuery{
         allPosts{
         id
         title
