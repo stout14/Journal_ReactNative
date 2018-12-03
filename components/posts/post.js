@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
-import navStyles from './styles/navStyles';
+import navStyles from '../../styles/navStyles';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
