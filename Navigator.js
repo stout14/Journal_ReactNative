@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, TouchableHighlight } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
+import {Fab, Icon, ScrollView} from 'native-base';
 import Post from './components/posts/post';
 import NewPost from './components/posts/NewPost';
 import Posts from './components/posts/Posts';
@@ -21,13 +22,13 @@ class Home extends React.Component {
       };
   
     render() {
-      return (        
-          <View style={styles.container}>
-            <Posts {...this.props}/>
-            <TouchableHighlight onPress={this.newPost} style={styles.newPost}>
-                <Text style={styles.newPostText}>New Post +</Text>
-            </TouchableHighlight>
-          </View>        
+      return (                
+        <View style={styles.container}>          
+          <Posts {...this.props}/>
+          <Fab onPress={this.newPost} style={styles.newPost}>
+            <Icon ios="ios-add" android="md-add" />
+          </Fab>            
+        </View>               
       );
     }
   }
@@ -38,8 +39,7 @@ class Home extends React.Component {
         justifyContent: "space-between",
     },
     newPost:{
-        backgroundColor:"#82D8D8",
-        padding: 20,
+        backgroundColor:"#82D8D8",        
     },
     newPostText:{
         fontSize:20,
