@@ -15,7 +15,7 @@ class Post extends Component{
 
     render(){       
         const{Post, loading} = this.props;
-        if(loading) return <ActivityIndicator size="large" />;
+        if(loading) return <View style={[styles.container, styles.activityindicater]}><ActivityIndicator size="large" /></View>;
         return(
             <View style={styles.container}>
                 <Text style={styles.bodyText}>{Post.body}</Text>
@@ -31,7 +31,12 @@ const styles = StyleSheet.create({
     bodyText:{
         fontSize:16,
     },
-
+    activityindicater:{
+        flex: 1,
+        justifyContent: "space-around",
+        flexDirection: 'row',
+        padding: 10,
+    },
   });
 
 const postQuery = gql `

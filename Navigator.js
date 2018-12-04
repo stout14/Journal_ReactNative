@@ -1,11 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableHighlight, ActivityIndicator } from 'react-native';
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import {Fab, Icon, ScrollView} from 'native-base';
 import Post from './components/posts/post';
 import NewPost from './components/posts/NewPost';
 import Posts from './components/posts/Posts';
 import navStyles from './styles/navStyles';
+import Login from './components/user/login';
+import { compose, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 class Home extends React.Component {
     static navigationOptions = {
@@ -44,7 +47,13 @@ class Home extends React.Component {
     newPostText:{
         fontSize:20,
         textAlign: "center",
-    }
+    },
+    activityindicater:{
+      flex: 1,
+      justifyContent: "space-around",
+      flexDirection: 'row',
+      padding: 10,
+  },
   });
 
 const AppNavigator = createStackNavigator({
@@ -58,5 +67,28 @@ const AppNavigator = createStackNavigator({
         screen: NewPost
     }
   });
-  
-  export default createAppContainer(AppNavigator);
+
+  const AppContainer = createAppContainer(AppNavigator);
+
+  const NavWrapper = ({loading, user}) => {
+    console.log(user);
+    
+    if (loading) return <View style={[styles.container, styles.activityindicater]}><ActivityIndicator size="large" /></View> ;
+    if (!user) return <Login />;
+    return <AppContainer />
+  };
+
+  const userQuery = gql `
+    query userQuery {
+      user{
+        id
+        email
+      }
+    }
+  `;
+
+  export default graphql(
+    userQuery, 
+    {props: ({data}) => ({...data})}
+  ) (NavWrapper);
+

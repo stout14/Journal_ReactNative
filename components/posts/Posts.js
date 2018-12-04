@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
 import {List, ListItem, Body, Right, Icon, } from 'native-base';
+import Swipeout from 'react-native-swipeout';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -9,29 +10,42 @@ class Posts extends Component {
   render() {
       const {loading, allPosts, navigation} = this.props;
 
-      if(loading) return <ActivityIndicator size="large" />;
-      
-    return (
+      if(loading) return <View style={[styles.container, styles.activityindicater]}><ActivityIndicator size="large" /></View>;
+
+    return (        
       <View>
-          <List>
-            <FlatList 
+          <List>          
+            <FlatList             
                 data={allPosts}
                 renderItem={({item}) => (
-                <ListItem onPress={()=> navigation.navigate("Post", {id: item.id, title: item.title})} >                   
-                    <Body><Text>{item.title}</Text></Body> 
-                    <Right><Icon ios='ios-arrow-forward' android="md-arrow-forward" /></Right>                                                    
+                <ListItem onPress={()=> navigation.navigate("Post", {id: item.id, title: item.title})} >                                 
+                    <Body ><Text>{item.title}</Text></Body> 
+                    <Right><Icon ios='ios-arrow-forward' android="md-arrow-forward" /></Right>                                                                
                 </ListItem>)}
                 keyExtractor={item => item.id}
-            />
+            />           
         </List>
-      </View>
+      </View>      
     );
   }
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        justifyContent: "space-between",
+    },
+    activityindicater:{
+      flex: 1,
+      justifyContent: "space-around",
+      flexDirection: 'row',
+      padding: 10,
+  },
+  });
+
 const postsQuery = gql `
     query postsQuery{
-        allPosts{
+        allPosts (orderBy: createdAt_DESC){
         id
         title
         }
