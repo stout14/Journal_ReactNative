@@ -16,7 +16,8 @@ class CreateUser extends Component {
             const signin = await this.props.signinUser({
                 variables: {email, password}
             });
-            signIn(signin.data.signinUser.token);           
+            signIn(signin.data.signinUser.token); 
+            this.props.client.resetStore();       
         } catch (e) {
             console.log(e);
             

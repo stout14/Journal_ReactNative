@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, ActivityIndicator, StyleSheet} from 'react-native';
+import {Fab, Icon, ScrollView, Item} from 'native-base';
 import navStyles from '../../styles/navStyles';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -13,12 +14,24 @@ class Post extends Component{
         };
     };
 
+    updatePost = () => {
+        const {Post} = this.props;
+        this.props.navigation.navigate("UpdatePost", {
+            id: Post.id,
+            title: Post.title
+        });
+    };
+
     render(){       
         const{Post, loading} = this.props;
         if(loading) return <View style={[styles.container, styles.activityindicater]}><ActivityIndicator size="large" /></View>;
         return(
             <View style={styles.container}>
                 <Text style={styles.bodyText}>{Post.body}</Text>
+                <Fab onPress={this.updatePost} style={styles.updatePost}>
+                    <Icon ios="ios-create" android="md-create" />
+                </Fab>  
+
             </View>
         )
     }
@@ -26,7 +39,8 @@ class Post extends Component{
 
 const styles = StyleSheet.create({
     container: {
-        padding:20,        
+        padding:20, 
+        flex:1,       
     },
     bodyText:{
         fontSize:16,
@@ -37,6 +51,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         padding: 10,
     },
+    updatePost:{
+        backgroundColor:"#82D8D8",  
+        flex:1      
+    },
+
   });
 
 const postQuery = gql `

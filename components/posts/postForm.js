@@ -4,12 +4,18 @@ import {Form, Item, Input, Label} from 'native-base';
 
 export default class PostForm extends Component {
 
+    static defaultProps = {
+        post: {}
+    };
+
     state ={
-        title: "",
-        body: ""
-    }
+        title: this.props.post.title || "",
+        body: this.props.post.body || ""
+    };
 
     submitForm = () => {
+        console.log("post made");
+        
         this.props.onSubmit({
             title: this.state.title,
             body: this.state.body,
@@ -47,11 +53,8 @@ export default class PostForm extends Component {
 }
 
 const styles = StyleSheet.create({
-
     body:{
         height:100,
         textAlignVertical: 'top',
     },
- 
-
   });

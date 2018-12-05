@@ -4,11 +4,14 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import {Fab, Icon, ScrollView} from 'native-base';
 import Post from './components/posts/post';
 import NewPost from './components/posts/NewPost';
+import UpdatePost from './components/posts/UpdatePost';
 import Posts from './components/posts/Posts';
 import navStyles from './styles/navStyles';
 import Login from './components/user/login';
-import { compose, graphql } from 'react-apollo';
+import { compose, graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import {signOut} from './loginUtils';
+
 
 class Home extends React.Component {
     static navigationOptions = {
@@ -28,6 +31,14 @@ class Home extends React.Component {
       return (                
         <View style={styles.container}>          
           <Posts {...this.props}/>
+          <Button 
+            color="#82D8D8"
+            title="Logout"
+            onPress={() => {
+              signOut ()
+              this.props.client.resetStore();
+            }}
+          />
           <Fab onPress={this.newPost} style={styles.newPost}>
             <Icon ios="ios-add" android="md-add" />
           </Fab>            
@@ -58,13 +69,16 @@ class Home extends React.Component {
 
 const AppNavigator = createStackNavigator({
     Home: {
-      screen: Home
+      screen: withApollo(Home) 
     },
     Post:{
       screen: Post
     },
     NewPost:{
         screen: NewPost
+    },
+    UpdatePost:{
+      screen: UpdatePost
     }
   });
 
@@ -75,7 +89,7 @@ const AppNavigator = createStackNavigator({
     
     if (loading) return <View style={[styles.container, styles.activityindicater]}><ActivityIndicator size="large" /></View> ;
     if (!user) return <Login />;
-    return <AppContainer />
+    return <AppContainer screenProps={{user}}/>
   };
 
   const userQuery = gql `
@@ -83,6 +97,10 @@ const AppNavigator = createStackNavigator({
       user{
         id
         email
+        posts (orderBy: createdAt_DESC) {
+          id
+          title
+        }
       }
     }
   `;

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
+import {withApollo} from 'react-apollo';
 import CreateUser from './createUser';
 import LoginUser from './loginUser';
 
-export default class Login extends Component {
+class Login extends Component {
     state = {
         register: true,
     };
@@ -12,9 +13,9 @@ export default class Login extends Component {
     return (
       <View  style={styles.container}>
         {this.state.register ? (
-            <CreateUser/>
+            <CreateUser {...this.props} />
         ) : (
-            <LoginUser/>
+            <LoginUser {...this.props} />
         )}    
         <Button             
             onPress={() => this.setState({
@@ -33,3 +34,5 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     }
 });
+
+export default withApollo(Login)

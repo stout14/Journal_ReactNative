@@ -1,26 +1,60 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet, Button, Alert } from 'react-native';
 import {List, ListItem, Body, Right, Icon, } from 'native-base';
-import Swipeout from 'react-native-swipeout';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-
+import Swipeout from 'react-native-swipeout';
 
 class Posts extends Component {
   render() {
-      const {loading, allPosts, navigation} = this.props;
+      const {navigation, screenProps} = this.props;
 
-      if(loading) return <View style={[styles.container, styles.activityindicater]}><ActivityIndicator size="large" /></View>;
+      state ={
+        loading: false
+      }
+      
+      deletePost = (id) => { 
+          console.log("in delete post");
+          
+        const{updatePost, navigation, screenProps, deletePostMutation} = this.props; 
+        this.setState({loading: true});
+        deletePostMutation({
+          variables:{
+            id,
+
+          }
+        }).then(() => {
+          navigation.goBack();
+        }).catch(error => {
+          this.setState({loading: false});
+          console.log(error);      
+        });
+      };  
 
     return (        
       <View>
           <List>          
             <FlatList             
-                data={allPosts}
+                data={screenProps.user.posts}
                 renderItem={({item}) => (
                 <ListItem onPress={()=> navigation.navigate("Post", {id: item.id, title: item.title})} >                                 
                     <Body ><Text>{item.title}</Text></Body> 
-                    <Right><Icon ios='ios-arrow-forward' android="md-arrow-forward" /></Right>                                                                
+                    <Right><Icon ios='ios-arrow-forward' android="md-arrow-forward" /></Right>  
+                    <Button 
+                        title="Delete" 
+                        onPress={() => {
+                            Alert.alert(
+                                'Alert',
+                                'Are you sure you want to delete?',[
+                                    {text: 'No', onPress: () => console.log('no pressed')},
+                                    {text: 'yes', onPress: () => {
+                                        console.log("DELETE ", item.id );
+                                       deletePost(item.id)
+                                    }}
+                                ]
+                            )
+                        }}
+                        color="red"/>                                                              
                 </ListItem>)}
                 keyExtractor={item => item.id}
             />           
@@ -30,28 +64,18 @@ class Posts extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex:1,
-        justifyContent: "space-between",
-    },
-    activityindicater:{
-      flex: 1,
-      justifyContent: "space-around",
-      flexDirection: 'row',
-      padding: 10,
-  },
-  });
-
-const postsQuery = gql `
-    query postsQuery{
-        allPosts (orderBy: createdAt_DESC){
+const deleteQuery = gql `
+mutation deletePostMutation($id: ID!) {
+    deletePost(id: $id){
         id
-        title
-        }
     }
+  }
 `;
 
-export default graphql(postsQuery, {
-    props: ({data}) => ({...data})
-})(Posts);
+
+export default graphql(deleteQuery, {
+    name: 'deletePostMutation',
+    options:{
+        refetchQueries:["userQuery"]
+      }
+  })(Posts);
