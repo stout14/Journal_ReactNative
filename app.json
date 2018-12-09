@@ -28,7 +28,7 @@
     },
     "android": {
       "package": "com.StoutKev.CIT255Journal",
-      "supportsTablet": true
+      
     }
   }
 }
