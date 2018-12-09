@@ -1,0 +1,1 @@
+No external information is gathered or saved by this app
