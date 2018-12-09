@@ -46,7 +46,7 @@ export default class PostForm extends Component {
             />
         </Item>
 
-        <Button title="Save Post" onPress={this.submitForm} color="#82D8D8"/>
+        <Button title="Save Post" onPress={this.submitForm} color="#00B32C"/>
       </Form>
     );
   }

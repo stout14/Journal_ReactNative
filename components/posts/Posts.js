@@ -39,7 +39,7 @@ class Posts extends Component {
                 renderItem={({item}) => (
                 <ListItem onPress={()=> navigation.navigate("Post", {id: item.id, title: item.title})} >                                 
                     <Body ><Text>{item.title}</Text></Body> 
-                    <Right><Icon ios='ios-arrow-forward' android="md-arrow-forward" /></Right>  
+                     {/* <Right><Icon ios='ios-arrow-forward' android="md-arrow-forward" /></Right>   */}
                     <Button 
                         title="Delete" 
                         onPress={() => {

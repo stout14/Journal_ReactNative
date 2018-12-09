@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     updatePost:{
-        backgroundColor:"#82D8D8",  
+        backgroundColor:"#00B32C",  
         flex:1      
     },
 

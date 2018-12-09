@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import UserForm from './userForm';
@@ -24,7 +24,7 @@ class LoginUser extends Component {
   render() {
     return (
       <View>
-        <Text>Login</Text>
+        <Text style={styles.formHeader}>Login</Text>
         <UserForm 
             onSubmit={this.loginUser}
             type="Login" 
@@ -33,6 +33,13 @@ class LoginUser extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+    formHeader: {
+        textAlign: "center",
+        fontSize: 20,
+    },
+  });
 
 const signinUser = gql `
     mutation signinUser($email: String!, $password: String!){

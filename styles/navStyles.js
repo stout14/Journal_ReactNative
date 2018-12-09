@@ -6,7 +6,7 @@ export default{
         color:"#FFF"
     },
     headerBackTitleStyle:{
-        color:"#82D8D8"
+        color:"#00B32C"
     },
-    headerTintColor:"#82D8D8"
+    headerTintColor:"#00B32C"
 };

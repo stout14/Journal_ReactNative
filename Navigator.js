@@ -32,14 +32,14 @@ class Home extends React.Component {
         <View style={styles.container}>          
           <Posts {...this.props}/>
           <Button 
-            color="#82D8D8"
+            color="#333"
             title="Logout"
             onPress={() => {
               signOut ()
               this.props.client.resetStore();
             }}
           />
-          <Fab onPress={this.newPost} style={styles.newPost}>
+          <Fab onPress={this.newPost} style={styles.newPost} position="bottomRight" >
             <Icon ios="ios-add" android="md-add" />
           </Fab>            
         </View>               
@@ -53,7 +53,12 @@ class Home extends React.Component {
         justifyContent: "space-between",
     },
     newPost:{
-        backgroundColor:"#82D8D8",        
+        backgroundColor: "#00B32C",
+        flex:1, 
+        position: 'absolute',
+        bottom: 25,
+        right: -5,
+
     },
     newPostText:{
         fontSize:20,
