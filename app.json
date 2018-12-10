@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "CIT-255 Journal",
-    "slug": "CIT255Journal",
+    "name": "CIT-255 Note Pad",
+    "slug": "CIT255NotePad",
     "privacy": "public",
     "sdkVersion": "31.0.0",
     "platforms": [
@@ -23,11 +23,11 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.StoutKev.CIT255Journal",
+      "bundleIdentifier": "com.StoutKev.CIT255notepad",
       "supportsTablet": true
     },
     "android": {
-      "package": "com.StoutKev.CIT255Journal",
+      "package": "com.StoutKev.CIT255notepad"
       
     }
   }
